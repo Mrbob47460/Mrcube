@@ -2201,6 +2201,96 @@ void GeneratingScreen_Show(void) {
 	LoadingScreen_ShowCommon(&title, &message);
 }
 
+/*########################################################################################################################*
+*-----------------------------------------------------MrClientScreen------------------------------------------------------*
+*#########################################################################################################################*/
+static struct MrClientScreen {
+	Screen_Body
+	struct FontDesc titleFont, bodyFont;
+	struct TextWidget title, info1, info2, info3;
+	struct ButtonWidget close;
+	int panelX, panelY, panelW, panelH;
+	struct Widget* __widgets[5];
+} MrClientScreen CC_BIG_VAR;
+
+static void MrClientScreen_Layout(void* screen) {
+	struct MrClientScreen* s = (struct MrClientScreen*)screen;
+
+	s->panelW = Display_ScaleX(520);
+	s->panelH = Display_ScaleY(340);
+	s->panelX = Gui_CalcPos(ANCHOR_CENTRE, 0, s->panelW, Window_UI.Width);
+	s->panelY = Gui_CalcPos(ANCHOR_CENTRE, 0, s->panelH, Window_UI.Height);
+
+	Widget_SetLocation(&s->title, ANCHOR_CENTRE, ANCHOR_CENTRE, 0, -130);
+	Widget_SetLocation(&s->info1, ANCHOR_CENTRE, ANCHOR_CENTRE, 0,  -60);
+	Widget_SetLocation(&s->info2, ANCHOR_CENTRE, ANCHOR_CENTRE, 0,  -25);
+	Widget_SetLocation(&s->info3, ANCHOR_CENTRE, ANCHOR_CENTRE, 0,   10);
+	Widget_SetLocation(&s->close, ANCHOR_CENTRE, ANCHOR_CENTRE, 0,  120);
+}
+
+static void MrClientScreen_ContextLost(void* screen) {
+	struct MrClientScreen* s = (struct MrClientScreen*)screen;
+	Font_Free(&s->titleFont);
+	Font_Free(&s->bodyFont);
+	Screen_ContextLost(screen);
+}
+
+static void MrClientScreen_ContextRecreated(void* screen) {
+	struct MrClientScreen* s = (struct MrClientScreen*)screen;
+	Screen_UpdateVb(screen);
+
+	Gui_MakeTitleFont(&s->titleFont);
+	Gui_MakeBodyFont(&s->bodyFont);
+
+	TextWidget_SetConst(&s->title, "&bMrClient &fPanel", &s->titleFont);
+	TextWidget_SetConst(&s->info1, "Version: 1.0",        &s->bodyFont);
+	TextWidget_SetConst(&s->info2, "Hecho por: Mr",       &s->bodyFont);
+	TextWidget_SetConst(&s->info3, "Aqui iran tus modulos y opciones", &s->bodyFont);
+	ButtonWidget_SetConst(&s->close, "Cerrar", &s->titleFont);
+}
+
+static void MrClientScreen_OnClose(void* screen, void* widget) {
+	Gui_Remove((struct Screen*)screen);
+}
+
+static void MrClientScreen_Init(void* screen) {
+	struct MrClientScreen* s = (struct MrClientScreen*)screen;
+	s->widgets    = s->__widgets;
+	s->numWidgets = 0;
+	s->maxWidgets = Array_Elems(s->__widgets);
+
+	TextWidget_Add(s, &s->title);
+	TextWidget_Add(s, &s->info1);
+	TextWidget_Add(s, &s->info2);
+	TextWidget_Add(s, &s->info3);
+	ButtonWidget_Add(s, &s->close, 200, MrClientScreen_OnClose);
+
+	s->maxVertices = Screen_CalcDefaultMaxVertices(s);
+}
+
+static void MrClientScreen_Render(void* screen, float delta) {
+	struct MrClientScreen* s = (struct MrClientScreen*)screen;
+	PackedCol top    = PackedCol_Make(20, 20, 40, 230);
+	PackedCol bottom = PackedCol_Make(40, 20, 80, 230);
+
+	Gfx_Draw2DGradient(s->panelX, s->panelY, s->panelW, s->panelH, top, bottom);
+	Screen_Render2Widgets(screen, delta);
+}
+
+static const struct ScreenVTABLE MrClientScreen_VTABLE = {
+	MrClientScreen_Init,   Screen_NullUpdate, Screen_NullFunc,
+	MrClientScreen_Render, Screen_BuildMesh,
+	Menu_InputDown,        Screen_InputUp,    Screen_TKeyPress, Screen_TText,
+	Menu_PointerDown,      Screen_PointerUp,  Menu_PointerMove, Screen_TMouseScroll,
+	MrClientScreen_Layout, MrClientScreen_ContextLost, MrClientScreen_ContextRecreated
+};
+void MrClientScreen_Show(void) {
+	struct MrClientScreen* s = &MrClientScreen;
+	s->grabsInput = true;
+	s->closable   = true;
+	s->VTABLE     = &MrClientScreen_VTABLE;
+	Gui_Add((struct Screen*)s, GUI_PRIORITY_INVENTORY);
+}
 
 /*########################################################################################################################*
 *----------------------------------------------------DisconnectScreen-----------------------------------------------------*
