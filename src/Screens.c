@@ -93,7 +93,6 @@ static void HUDScreen_RemakeLine1(struct HUDScreen* s) {
 	float real_fps;
 
 	String_InitArray(status, statusBuffer);
-	String_InitArray(status, statusBuffer);
 String_AppendConst(&status, "&bMrClient  &f");
 
 if (Camera.Fov != Camera.DefaultFov) {
