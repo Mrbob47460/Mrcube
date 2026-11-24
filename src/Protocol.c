@@ -930,7 +930,7 @@ static void CPE_SendExtInfo(int extsCount) {
     cc_uint8 data[67];
     data[0] = OPCODE_EXT_INFO;
     {
-        cc_string Mrcoli5 = String_FromConst("Classic&2L&cA&9T&eA&fM 1.3.9");
+        cc_string Mrcoli5 = String_FromConst("Mr&2C&cL&9i&ee&fnt 1.4.0");
 
         WriteString(data + 1,       &Mrcoli5;
         Mem_WriteU16_BE(data + 65, extsCount);
