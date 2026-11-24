@@ -77,7 +77,7 @@ int Game_NumStates = 1;
 #endif
 
 const char* const FpsLimit_Names[FPS_LIMIT_COUNT] = {
-	"LimitVSync", "Limit30FPS", "Limit60FPS", "Limit120FPS", "Limit144FPS", "LimitNone",
+	"basico 30 fps", "mejorado 30FPS", "super 60FPS", "Ultra 120FPS", "Poderoso144FPS", "GENIAL (no limite)",
 };
 
 static struct IGameComponent* comps_head;
