@@ -692,7 +692,7 @@ void SplitScreen_SetActive(void) {
 	s->maxWidgets = Array_Elems(split_widgets);
 
 	s->Activated     = SplitScreen_Activated;
-	s->title         = "Splitscreen mode";
+	s->title         = "modo grande";
 
 	Launcher_SetScreen((struct LScreen*)s);
 }
@@ -1022,7 +1022,7 @@ void MainScreen_SetActive(void) {
 	s->Activated     = MainScreen_Activated;
 	s->LoadState     = MainScreen_Load;
 	s->Tick          = MainScreen_Tick;
-	s->title         = "ClassiCube";
+	s->title         = "Mrcube";
 
 #ifdef CC_BUILD_NETWORKING
 	s->onEnterWidget = (struct LWidget*)&s->btnLogin;
@@ -1598,7 +1598,7 @@ void ThemesScreen_SetActive(void) {
 	s->maxWidgets = Array_Elems(themes_widgets);
 
 	s->Activated      = ThemesScreen_Activated;
-	s->title          = "Select theme";
+	s->title          = "Elejir Tema";
 	s->onEscapeWidget = (struct LWidget*)&s->btnBack;
 
 	Launcher_SetScreen((struct LScreen*)s);
