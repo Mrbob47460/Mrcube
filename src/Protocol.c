@@ -936,14 +936,6 @@ static void CPE_SendExtInfo(int extsCount) {
     }
     Server.SendData(data, 67);
 }
-	cc_uint8 data[67];
-	data[0] = OPCODE_EXT_INFO;
-	{
-		WriteString(data + 1,       &Server.AppName);
-		Mem_WriteU16_BE(data + 65, extsCount);
-	}
-	Server.SendData(data, 67);
-}
 
 static void CPE_SendExtEntry(const cc_string* extName, int extVersion) {
 	cc_uint8 data[69];
