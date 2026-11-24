@@ -364,7 +364,7 @@ static struct MapState map2;
 #endif
 
 static void DisconnectInvalidMap(cc_result res) {
-	static const cc_string title  = String_FromConst("Disconnected");
+	static const cc_string title  = String_FromConst("Desconectado!");
 	cc_string tmp; char tmpBuffer[STRING_SIZE];
 	String_InitArray(tmp, tmpBuffer);
 
@@ -747,7 +747,7 @@ static void Classic_Message(cc_uint8* data) {
 }
 
 static void Classic_Kick(cc_uint8* data) {
-	static const cc_string title = String_FromConst("&eLost connection to the server");
+	static const cc_string title = String_FromConst("&eSe perdio la conexion con el servidor");
 	cc_string reason = UNSAFE_GetString(data);
 	Game_Disconnect(&title, &reason);
 }
@@ -930,7 +930,9 @@ static void CPE_SendExtInfo(int extsCount) {
 	cc_uint8 data[67];
 	data[0] = OPCODE_EXT_INFO;
 	{
-		WriteString(data + 1,       &Server.AppName);
+		cc_string Mrcoli5 = String_FromConst("Classic&2L&cA&9T&eA&fM 1.3.9");
+
+		WriteString(data + 1,       &Mrcoli5;
 		Mem_WriteU16_BE(data + 65, extsCount);
 	}
 	Server.SendData(data, 67);
@@ -1336,7 +1338,7 @@ static void CPE_SetTextColor(cc_uint8* data) {
 }
 
 static void CPE_SetMapEnvUrl(cc_uint8* data) {
-	char urlBuffer[MAX_URL_LEN];
+	char urlBuffer[URL_MAX_SIZE];
 	cc_string url;
 
 	cc_string part1 = UNSAFE_GetString(data);
