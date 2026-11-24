@@ -925,16 +925,15 @@ void CPE_SendNotifyPositionAction(int action, int x, int y, int z) {
 	}
 	Server.SendData(data, 9);
 }
-static void CPE_SendExtInfo(int extsCount) {
-    cc_uint8 data[67];
-    data[0] = OPCODE_EXT_INFO;
-    {
-        cc_string Mrcoli5 = String_FromConst("Mr&4client 1.4.0");
 
-        WriteString(data + 1,       &Mrcoli5;
-        Mem_WriteU16_BE(data + 65, extsCount);
-    }
-    Server.SendData(data, 67);
+static void CPE_SendExtInfo(int extsCount) {
+	cc_uint8 data[67];
+	data[0] = OPCODE_EXT_INFO;
+	{
+		WriteString(data + 1,       &Server.AppName);
+		Mem_WriteU16_BE(data + 65, extsCount);
+	}
+	Server.SendData(data, 67);
 }
 
 static void CPE_SendExtEntry(const cc_string* extName, int extVersion) {
