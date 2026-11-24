@@ -94,7 +94,6 @@ static void HUDScreen_RemakeLine1(struct HUDScreen* s) {
 
 	String_InitArray(status, statusBuffer);
 String_AppendConst(&status, "&bMrClient  &f");
-
 if (Camera.Fov != Camera.DefaultFov) {
 	/* Don't remake texture when FPS isn't being shown */
 	if (!Gui.ShowFPS && s->line1.tex.ID) return;
