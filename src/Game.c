@@ -42,6 +42,9 @@
 #include "Formats.h"
 #include "EntityRenderers.h"
 
+/* Nombre del cliente. Cambialo aqui y se actualiza en todo este archivo */
+#define CLIENT_NAME "MrClient"
+
 struct _GameData Game;
 static cc_uint64 frameStart;
 cc_bool Game_UseCPEBlocks, Game_Running;
@@ -111,6 +114,7 @@ static cc_bool ScheduledTask_Callback(struct ScheduledTask2* task) {
 }
 
 int ScheduledTask_Add(double interval, ScheduledTaskCallback callback) {
+	/* Nota: la tarea vive hasta cerrar el juego, por eso no se libera */
 	struct ScheduledTask2Ext* t = Mem_Alloc(1, sizeof(struct ScheduledTask2Ext), "task");
 	t->task.interval    = interval;
 	t->task.callback    = ScheduledTask_Callback;
@@ -449,7 +453,7 @@ static void Game_Load(void) {
 	TexturePack_ExtractCurrent(true);
 	if (TexturePack_DefaultMissing) {
 		Window_ShowDialog("Missing file",
-			"Both default.zip and classicube.zip are missing,\n try downloading resources first.\n\nClassiCube will still run, but without any textures.");
+			"Both default.zip and classicube.zip are missing,\n try downloading resources first.\n\n" CLIENT_NAME " will still run, but without any textures.");
 	}
 	Gfx_WarnIfNecessary();
 
@@ -791,7 +795,7 @@ void Game_RenderFrame(void) {
 	LocalPlayer_SetInterpPosition(Entities.CurPlayer, t);
 
 	Camera.CurrentPos = Camera.Active->GetPosition(t);
-	/* NOTE: EnvRenderer_UpdateFog also also sets clear color */
+	/* NOTE: EnvRenderer_UpdateFog also sets clear color */
 	EnvRenderer_UpdateFog();
 	AudioBackend_Tick();
 
@@ -877,7 +881,7 @@ void Game_Setup(void) {
 	}
 	
 	String_InitArray(title, titleBuffer);
-	String_Format2(&title, "%c (%s)", GAME_APP_TITLE, &Game_Username);
+	String_Format2(&title, "%c (%s)", CLIENT_NAME, &Game_Username);
 	
 	Window_Create3D(width, height);
 	Window_SetTitle(&title);
@@ -889,4 +893,3 @@ void Game_Setup(void) {
 	Event_RaiseVoid(&WindowEvents.Resized);
 	frameStart = Stopwatch_Measure();
 }
-
