@@ -930,7 +930,7 @@ static void CPE_SendExtInfo(int extsCount) {
 	cc_uint8 data[67];
 	data[0] = OPCODE_EXT_INFO;
 	{
-		WriteString(data + 1,       &Server.AppName);
+		WriteString(data + 1,       &Server.Mrclient);
 		Mem_WriteU16_BE(data + 65, extsCount);
 	}
 	Server.SendData(data, 67);
